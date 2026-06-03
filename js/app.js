@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function(){
         email: '',
         nombre: '',
         asunto: '',
-        mensaje: ''
+        mensaje: '',
     }
 
     
@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function(){
     const inputEmail = document.querySelector('#email');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
-    const formulario = document.querySelector('#formulario');
     const inputNombre = document.querySelector('#nombre');
+    const inputEmailCc = document.querySelector('#emailcc')
+    const formulario = document.querySelector('#formulario');
     const btnSubmit = document.querySelector('#formulario button[type="submit"]');
     const btnReset = document.querySelector('#formulario button[type="reset"]');
     const spinner = document.querySelector('#spinner');
-    const inputCc = document.querySelector('#emailcc');
     
 
     //Asignar eventos de validacion de formularios
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
     inputAsunto.addEventListener('input', validar);
     inputMensaje.addEventListener('input', validar);
     inputNombre.addEventListener('input', validar);
-    inputCc.addEventListener('input', estadoEmailCc);
+    inputEmailCc.addEventListener('input', validarEmailCc);
     formulario.addEventListener('submit', enviarEmail);
     
     btnReset.addEventListener('click', function(e){
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function(){
     
     function validar(e){
         
-        if(e.target.value.trim() === '' && e.target.id !== 'emailcc'){
+        if(e.target.value.trim() === ''){
 
             mostrarAlerta(`El campo ${e.target.id} es obligatorio`, e.target.parentElement);
             email[e.target.id] = '';
@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         
-        
         if(e.target.id === 'email' && !validarEmail(e.target.value)){
             
+           
                 mostrarAlerta('El email no es valido', e.target.parentElement);
                 email[e.target.id] = '';
                 comprobarEmail();
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         //asignar valores
         email[e.target.id] = e.target.value.trim().toLowerCase();
-
+        
         //Comprobar email
         comprobarEmail();
     }
@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function comprobarEmail(){
        //console.log(email);
-        
+
+
         if(Object.values(email).includes('')){
             btnSubmit.classList.add('opacity-50');
             btnSubmit.disabled=true;
@@ -149,18 +150,25 @@ document.addEventListener('DOMContentLoaded', function(){
 
         formulario.reset();
         comprobarEmail();
+
     }
 
-    function estadoEmailCc(e){
-        
-        if(!validarEmail(e.target.value) && e.target.value !== ''){
+    function validarEmailCc(e){
+        if(e.target.value !== '' && !validarEmail(e.target.value)){
             mostrarAlerta('El email no es valido', e.target.parentElement);
-            comprobarEmail();
+            btnSubmit.classList.add('opacity-50');
+            btnSubmit.disabled=true;
+            //comprobarEmail();
+            console.log("Condicional input diferente a vacio");
+            
             return;
         }
-        
-            limpiarAlerta(e.target.parentElement);
+
+        limpiarAlerta(e.target.parentElement);
+            comprobarEmail();
+            console.log("Condicional input IGUAL a vacio");
         
     }
+
     
 })
