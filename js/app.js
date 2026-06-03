@@ -158,15 +158,12 @@ document.addEventListener('DOMContentLoaded', function(){
             mostrarAlerta('El email no es valido', e.target.parentElement);
             btnSubmit.classList.add('opacity-50');
             btnSubmit.disabled=true;
-            //comprobarEmail();
-            console.log("Condicional input diferente a vacio");
             
             return;
         }
 
         limpiarAlerta(e.target.parentElement);
             comprobarEmail();
-            console.log("Condicional input IGUAL a vacio");
         
     }
 
